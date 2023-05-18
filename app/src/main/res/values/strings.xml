@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My WhatsApp</string>
+    <string name="chat_icon">Chat Icon</string>
+    <string name="app_by">Developed by Dominic</string>
 </resources>
