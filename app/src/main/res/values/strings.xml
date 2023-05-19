@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">My WhatsApp</string>
     <string name="login_num">Enter mobile number</string>
+    <string name="otp_msg">Enter OTP sent to your phone number</string>
     <string name="num_hint">Mobile</string>
+    <string name="otp_hint">OTP</string>
     <string name="step_one">1</string>
     <string name="step_two">2</string>
     <string name="step_three">3</string>
     <string name="chat_icon">Chat Icon</string>
     <string name="phone_icon">Phone Icon</string>
     <string name="phone_otp">Send OTP</string>
+    <string name="otp_icon">OTP Icon</string>
+    <string name="resend_otp">Resend OTP in 30 sec</string>
+    <string name="next">NEXT</string>
     <string name="app_by">Developed by Dominic</string>
 </resources>
