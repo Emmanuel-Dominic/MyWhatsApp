@@ -1,5 +1,6 @@
 package com.example.mywhatsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mywhatsapp.utils.AndroidUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -43,6 +47,13 @@ public class OtpActivity extends AppCompatActivity {
 
         phoneNumber = getIntent().getExtras().getString("phone");
         sendOtp(phoneNumber, false);
+
+        nextBtn.setOnClickListener(v -> {
+            String enteredOtp = otpInput.getText().toString();
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, enteredOtp);
+            signIn(credential);
+            setInProgress(true);
+        });
     }
 
     void sendOtp(String phoneNumber, boolean isResend) {
@@ -91,7 +102,19 @@ public class OtpActivity extends AppCompatActivity {
     }
 
     void signIn(PhoneAuthCredential phoneAuthCredential) {
-        // login and go to the activity
+        setInProgress(true);
+        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                setInProgress(false);
+                if(task.isSuccessful()) {
+                    Intent intent = new Intent(OtpActivity.this, SetUsernameActivity.class);
+                    intent.putExtra("phone", phoneNumber);
+                    startActivity(intent);
+                }else {
+                    AndroidUtil.showToast(getApplicationContext(), "OTP verification failed");
+                }
+            }
+        });
     }
-
 }
